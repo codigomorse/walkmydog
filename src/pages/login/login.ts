@@ -25,6 +25,10 @@ export class Login {
   doLogin(){
     try{
       const result = this.afAuth.auth.signInWithEmailAndPassword(this.user.email,this.user.password);
+      if(result){
+        //this.navCtrl.setRoot('Register');
+        this.navCtrl.setRoot('Home');
+      }else
       console.log(result);
     }catch(e){
       console.error(e);
