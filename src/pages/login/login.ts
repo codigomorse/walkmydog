@@ -23,10 +23,9 @@ export class Login {
     this.navCtrl.push('Register');
   }
   doLogin(){
-    console.log("logeate a :"+this.user);
     try{
-      //const result = this.afAuth.auth.signInWithEmailAndPassword(this.user.email,this.user.password);
-      //console.log(result);
+      const result = this.afAuth.auth.signInWithEmailAndPassword(this.user.email,this.user.password);
+      console.log(result);
     }catch(e){
       console.error(e);
     }

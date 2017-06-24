@@ -2,23 +2,24 @@
   <ion-card>
   <ion-card-header>Login</ion-card-header>
   <ion-card-content>
-    <form (ngSubmit)="doLogin()">
     <ion-list no lines>
+      <form (ngSubmit)="doLogin()">
       <ion-item>
         <ion-label floating>UserMail</ion-label>
-        <ion-input type="email" ng-model="user.email"></ion-input>
+        <ion-input type="email" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Password</ion-label>
-        <ion-input type="password" ng-model="user.password"></ion-input>
+        <ion-input type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
       </ion-item>
       <ion-item>
         <p>Forgot password?<a>Get here</a></p>
+        {{user | json}}
       </ion-item>
       <button ion-button color="secondary" type="submit" block >Login</button>
+      </form>
       <button ion-button color="danger" (click)="goRegister()" block outline>Register</button>
     </ion-list>
-    </form>
     <b>OR</b>
     <button ion-button color="primary" block >
     <ion-icon name="logo-facebook"></ion-icon>
