@@ -1,26 +1,49 @@
-<ion-content class="background">
-  <ion-card>
-  <ion-card-header>Login</ion-card-header>
-  <ion-card-content>
-    <ion-list no lines>
-      <form (ngSubmit)="doLogin()">
-      <ion-item>
-        <ion-label floating>UserMail</ion-label>
-        <ion-input type="email" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
-      </ion-item>
-      <ion-item>
-        <p>Forgot password?<a>Get here</a></p>
-        {{user | json}}
-      </ion-item>
-      <button ion-button color="secondary" type="submit" block >Login</button>
-      </form>
-      <button ion-button color="danger" (click)="goRegister()" block outline>Register</button>
-    </ion-list>
-    <b>OR</b>
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Log In
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input formControlName="email" type="email" 
+        [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" 
+      *ngIf="!loginForm.controls.email.valid  && loginForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input formControlName="password" type="password"
+        [class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" 
+      *ngIf="!loginForm.controls.password.valid  && loginForm.controls.password.dirty">
+      <p>Your password needs more than 6 characters.</p>
+    </ion-item>
+
+    <button ion-button block type="submit" [disabled]="!loginForm.valid">
+      Login
+    </button>
+
+  </form>
+
+  <button ion-button block clear (click)="goToSignup()">
+    Create a new account
+  </button>
+
+  <button ion-button block clear (click)="goToResetPassword()">
+    I forgot my password
+  </button>
+  <b>OR</b>
     <button ion-button color="primary" block >
     <ion-icon name="logo-facebook"></ion-icon>
     <div> Log with facebook</div>
@@ -29,6 +52,4 @@
     <ion-icon name="logo-google"></ion-icon>
     <div> Log with google</div>
     </button>
-  </ion-card-content>
-  </ion-card>
 </ion-content>

@@ -20,11 +20,12 @@ export class Register {
     console.log('ionViewDidLoad Register');
   }
   register(){
-    try{
-      const result = this.afAuth.auth.createUserWithEmailAndPassword(this.user.email,this.user.password);
-      console.log(result);
-    }catch(e){
-      console.error(e);
-    }
+        this.afAuth.auth.createUserWithEmailAndPassword(this.user.email,this.user.password).catch(function(error) {
+      // Handle Errors here.
+      //var errorCode = error.code;
+      var errorMessage = error.message;
+      alert(errorMessage);
+      // ...
+    })
   }
 }

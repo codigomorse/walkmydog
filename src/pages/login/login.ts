@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController,Loading,LoadingController } from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from "../../models/user";
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { EmailValidator } from '../../validators/email';
 
 @IonicPage()
 @Component({
@@ -12,27 +14,53 @@ import { User } from "../../models/user";
 export class Login {
 
   user = {} as User;
+  public loginForm:FormGroup;
+  public loading:Loading;
 
-  constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public alertCtrl: AlertController, private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+    this.loginForm = formBuilder.group({
+      email: ['', Validators.compose([Validators.required, 
+        EmailValidator.isValid])],
+      password: ['', Validators.compose([Validators.minLength(6), 
+        Validators.required])]
+    });
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Login');
+
   }
-  goRegister(){
+  goToResetPassword(){
+    this.navCtrl.push('ResetPasswordPage');
+  }
+  goToSignup(){
     this.navCtrl.push('Register');
   }
-  doLogin(){
-    try{
-      const result = this.afAuth.auth.signInWithEmailAndPassword(this.user.email,this.user.password);
-      if(result){
-        //this.navCtrl.setRoot('Register');
+  loginUser(): void {
+  if (!this.loginForm.valid){
+    console.log(this.loginForm.value);
+  } else {
+    this.afAuth.auth.signInWithEmailAndPassword(this.loginForm.value.email, 
+        this.loginForm.value.password)
+    .then( authData => {
+      this.loading.dismiss().then( () => {
         this.navCtrl.setRoot('Home');
-      }else
-      console.log(result);
-    }catch(e){
-      console.error(e);
-    }
+      });
+    }, error => {
+      this.loading.dismiss().then( () => {
+        let alert = this.alertCtrl.create({
+          message: error.message,
+          buttons: [
+            {
+              text: "Ok",
+              role: 'cancel'
+            }
+          ]
+        });
+        alert.present();
+      });
+    });
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
   }
-
+}
 }

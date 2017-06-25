@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams, AlertController,Platform } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
+import firebase from 'firebase';
 /**
  * Generated class for the Home page.
  *
@@ -14,11 +15,35 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class Home {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  user={};
+  constructor(public alert: AlertController,public platform: Platform,private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Home');
+    // this.afAuth.authState.subscribe(data => {
+    //   this.user = data;
+    //   console.log(this.user);
+    // });
   }
-
+  logoutUser(){
+    this.exit();
+    firebase.auth().signOut();
+  }
+  exit(){
+      let alert = this.alert.create({
+        title: 'Confirm',
+        message: 'Do you want sing out and exit?',
+        buttons: [{
+          text: "sing out and exit?",
+          handler: () => { this.exitApp() }
+        }, {
+          text: "Cancel",
+          role: 'cancel'
+        }]
+      })
+      alert.present();
+  }
+  exitApp(){
+    this.platform.exitApp();
+  }
 }
