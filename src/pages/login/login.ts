@@ -38,7 +38,36 @@ export class Login {
 
   }
   goToResetPassword(){
-    this.navCtrl.push('ResetPasswordPage');
+    let prompt = this.alertCtrl.create({
+      title: 'Reset Password',
+      message: "Enter your mail address",
+      inputs: [
+        {
+          name: 'mail',
+          placeholder: 'mail'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            this.afAuth.auth.sendPasswordResetEmail(data.mail).then(function() {
+              // Email sent.
+            }, function(error) {
+              alert(error);
+              // An error happened.
+            });
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
   goToSignup(){
     this.navCtrl.push('Register');
