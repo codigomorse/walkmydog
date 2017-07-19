@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController,Platform } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
+import { AngularFireAuth } from 'angularfire2/auth';
 /**
  * Generated class for the Home page.
  *
@@ -16,14 +16,14 @@ import firebase from 'firebase';
 export class Home {
 
   user={};
-  constructor(public alert: AlertController,public platform: Platform,private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private afAuth:AngularFireAuth,public alert: AlertController,public platform: Platform,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    // this.afAuth.authState.subscribe(data => {
-    //   this.user = data;
-    //   console.log(this.user);
-    // });
+    this.afAuth.authState.subscribe(data => {
+       this.user = data;
+       console.log(this.user);
+     });
   }
   logoutUser(){
     this.exit();

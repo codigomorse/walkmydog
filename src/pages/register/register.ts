@@ -20,12 +20,22 @@ export class Register {
     console.log('ionViewDidLoad Register');
   }
   register(){
-        this.afAuth.auth.createUserWithEmailAndPassword(this.user.email,this.user.password).catch(function(error) {
-      // Handle Errors here.
-      //var errorCode = error.code;
-      var errorMessage = error.message;
-      alert(errorMessage);
-      // ...
-    })
+      this.afAuth.auth.createUserWithEmailAndPassword(this.user.email,this.user.password).catch(function(error) {
+        // Handle Errors here.
+        //var errorCode = error.code;
+        var errorMessage = error.message;
+        alert(errorMessage);
+        // ...
+        })
+      var user = this.afAuth.auth.currentUser;
+
+    if (user) {
+      console.log("estoy logueado");
+      console.log(user);
+      this.navCtrl.setRoot('Home');
+    } else {
+      console.log("nadie logueado");
+      // No user is signed in.
+      }
   }
 }

@@ -27,6 +27,14 @@ export class Login {
   }
 
   ionViewDidLoad() {
+    const unsubscribe = this.afAuth.auth.onAuthStateChanged((user) => {
+        if (!user) {
+          unsubscribe();
+        } else { 
+          this.navCtrl.setRoot('Home');
+          unsubscribe();
+        }
+      });
 
   }
   goToResetPassword(){
