@@ -18,10 +18,10 @@
         <ion-label floating>Password</ion-label>
         <ion-input type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
       </ion-item>
-      <ion-item>
-        <p>Forgot password?<a>Get here</a></p>
-      </ion-item>
       <button ion-button color="secondary" type="submit" block >Register</button>
     </ion-list>
      </form>
+    <button ion-button block clear (click)="goToResetPassword()">
+      I forgot my password
+    </button>
 </ion-content>
