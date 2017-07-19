@@ -43,7 +43,6 @@ export class Register {
     });
     this.loading = this.loadingCtrl.create();
     this.loading.present();
-    var user = this.afAuth.auth.currentUser;  
   }
   loginUser(): void {
     this.afAuth.auth.signInWithEmailAndPassword(this.user.email, 

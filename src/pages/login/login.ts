@@ -59,6 +59,7 @@ export class Login {
           handler: data => {
             this.afAuth.auth.sendPasswordResetEmail(data.mail).then(function() {
               // Email sent.
+              alert("email send");
             }, function(error) {
               alert(error);
               // An error happened.
