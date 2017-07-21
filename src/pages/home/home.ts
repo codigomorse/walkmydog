@@ -26,11 +26,7 @@ export class Home {
      });
   }
   logoutUser(){
-    this.exit();
-    firebase.auth().signOut();
-  }
-  exit(){
-      let alert = this.alert.create({
+        let alert = this.alert.create({
         title: 'Confirm',
         message: 'Do you want sing out and exit?',
         buttons: [{
@@ -44,6 +40,7 @@ export class Home {
       alert.present();
   }
   exitApp(){
+    firebase.auth().signOut();
     this.platform.exitApp();
   }
 }
