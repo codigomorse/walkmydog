@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController,Loading,LoadingController } from 'ionic-angular';
-
+import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from "../../models/user";
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -72,6 +72,17 @@ export class Login {
   }
   goToSignup(){
     this.navCtrl.push('Register');
+  }
+  logFace(){
+    let provider = new firebase.auth.FacebookAuthProvider();
+
+    firebase.auth().signInWithRedirect(provider).then(()=>{
+      firebase.auth().getRedirectResult().then((result)=>{
+          alert(JSON.stringify(result));
+      }).catch(function (error){
+          alert(JSON.stringify(error));
+      })
+    })
   }
   loginUser(): void {
   if (!this.loginForm.valid){
