@@ -84,6 +84,17 @@ export class Login {
       })
     })
   }
+  logGoogle(){
+    let provider = new firebase.auth.GoogleAuthProvider();
+
+    firebase.auth().signInWithRedirect(provider).then((result)=> {
+      firebase.auth().getRedirectResult().then((result)=>{
+          alert(JSON.stringify(result));
+      }).catch(function (error){
+          alert(JSON.stringify(error));
+      })
+    })
+  }
   loginUser(): void {
   if (!this.loginForm.valid){
     console.log(this.loginForm.value);
