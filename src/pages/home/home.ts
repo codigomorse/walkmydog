@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController,Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController,Platform, ToastController } from 'ionic-angular';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 /**
@@ -16,12 +16,16 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class Home {
 
   user={};
-  constructor(private afAuth:AngularFireAuth,public alert: AlertController,public platform: Platform,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private toast: ToastController,private afAuth:AngularFireAuth,public alert: AlertController,public platform: Platform,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(data => {
        this.user = data;
+       this.toast.create({
+         message: "Welcome to Walkmydog "+data.email,
+         duration: 3000
+       }).present();
        console.log(this.user);
      });
   }
