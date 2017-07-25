@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController,Platform, ToastController } from 'ionic-angular';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
-/**
- * Generated class for the Home page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import { Profile } from '../../models/profile';
+import { AngularFireDatabase, FirebaseObjectObservable  } from 'angularfire2/database';
+
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -15,17 +12,26 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class Home {
 
+  profileData: FirebaseObjectObservable<Profile>;
   user={};
-  constructor(private toast: ToastController,private afAuth:AngularFireAuth,public alert: AlertController,public platform: Platform,public navCtrl: NavController, public navParams: NavParams) {
+  profile = {} as Profile;
+  constructor(private afDb: AngularFireDatabase,private toast: ToastController,private afAuth:AngularFireAuth,public alert: AlertController,public platform: Platform,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(data => {
        this.user = data;
+       this.profileData = this.afDb.object(`users/${data.uid}`);
+       if(null != data.photoURL){
+        this.profile.picture = data.photoURL;
+       }else{
+        this.profile.picture = "http://via.placeholder.com/140x100"; 
+       }
        this.toast.create({
          message: "Welcome to Walkmydog "+data.email,
          duration: 3000
        }).present();
+       //console.log(this.profileData);
        console.log(this.user);
      });
   }
@@ -43,6 +49,15 @@ export class Home {
       })
       alert.present();
   }
+  saveProfile(){
+    if(null != this.profile.username){
+      this.afAuth.authState.take(1).subscribe(auth => {
+        this.afDb.object(`users/${auth.uid}`).set(this.profile).then(() => alert("Datos actualizados correctamente"));
+      })
+    }else{
+      alert("el nombre de usuario no puede estar vacio");
+    }
+  }  
   exitApp(){
     firebase.auth().signOut();
     this.platform.exitApp();

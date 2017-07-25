@@ -78,9 +78,12 @@ export class Login {
 
     firebase.auth().signInWithRedirect(provider).then(()=>{
       firebase.auth().getRedirectResult().then((result)=>{
-          alert(JSON.stringify(result));
+          //alert(JSON.stringify(result));
+          alert("successful login");
+          this.navCtrl.setRoot('Home');
       }).catch(function (error){
-          alert(JSON.stringify(error));
+          //alert(JSON.stringify(error));
+          alert("login error");
       })
     })
   }
@@ -89,9 +92,12 @@ export class Login {
 
     firebase.auth().signInWithRedirect(provider).then((result)=> {
       firebase.auth().getRedirectResult().then((result)=>{
-          alert(JSON.stringify(result));
+          //alert(JSON.stringify(result));
+          alert("successful login");
+          this.navCtrl.setRoot('Home');
       }).catch(function (error){
-          alert(JSON.stringify(error));
+          //alert(JSON.stringify(error));
+          alert("login error");
       })
     })
   }

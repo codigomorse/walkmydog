@@ -14,7 +14,21 @@
 
 
 <ion-content padding>
-  <h1>hola</h1>
   
-<button ion-button (click)="logoutUser()">Log out</button>
+  <img [src]="profile.picture">
+  <br>
+  <ion-item>
+    <ion-label floating>Username</ion-label>
+    <ion-input [(ngModel)]="profile.username"></ion-input>
+  </ion-item>
+  <br>
+  
+  <!--<ion-item>
+    <ion-label floating>email</ion-label>
+    <ion-input [(ngModel)]="profile.email"></ion-input>
+  </ion-item>
+  -->
+  <button ion-button clear block (click)="saveProfile()">Save Profile</button>
+  
+  <button ion-button block (click)="logoutUser()">Log out</button> 
 </ion-content>
